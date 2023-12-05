@@ -76,6 +76,13 @@
 		"@typescript-eslint/return-await": "error",
 		"@typescript-eslint/triple-slash-reference": "error",
 		"@typescript-eslint/type-annotation-spacing": "error",
-		"@typescript-eslint/unified-signatures": "error"
+		"@typescript-eslint/unified-signatures": "error",
+		"max-len": [
+			"error",
+			{
+				"code": 140,
+				"ignoreComments": true
+			}
+		]
 	}
 }
