@@ -6,3 +6,5 @@
 //                 Protein --> DNA
 //                 Protein --> RNA
 //                 RNA --> DNA
+
+// TODO: Decide what pattern to use (strategy might not make as much sense here, might make more sense for file types?)
