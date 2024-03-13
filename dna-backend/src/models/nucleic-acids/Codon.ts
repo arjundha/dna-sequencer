@@ -6,7 +6,19 @@ export interface Codon {
 
 export function codonToAminoAcid(codon: Codon): AminoAcid {
 	if (codon.baseTrio === "AUG") {
-		return {aminoAcid: "Met"};
+		return {aminoAcid: "Met", fullName: "Methionine"};
+	} else {
+		throw new Error("Invalid codon");
 	}
-	return {aminoAcid: "Unknown"};
+}
+
+export function RNACodonToDNACodon(codon: Codon): Codon {
+	let RNACodon = codon.baseTrio;
+	RNACodon = RNACodon.replace(/U/g, "T");
+	return {baseTrio: RNACodon};
+}
+
+export function DNACodonToRNACodon(codon: Codon): Codon {
+	let DNACodon = codon.baseTrio;
+	return {baseTrio: DNACodon.replace(/T/g, "U")};
 }
