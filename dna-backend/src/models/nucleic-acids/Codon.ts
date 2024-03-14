@@ -18,85 +18,61 @@ export function codonToAminoAcid(codon: Codon): AminoAcid {
 	if (isStopCodon(codon.baseTrio)) {
 		return {aminoAcid: "Stop", fullName: "Stop", isStopCodon: true};
 	}
-	if (codon.baseTrio === "AUU" || codon.baseTrio === "AUC" || codon.baseTrio === "AUA") {
+	if (isIsoleucine(codon.baseTrio)) {
 		return {aminoAcid: "Ile", fullName: "Isoleucine"};
 	}
-	if (codon.baseTrio === "ACU" || codon.baseTrio === "ACC" || codon.baseTrio === "ACA" || codon.baseTrio === "ACG") {
+	if (isThreonine(codon.baseTrio)) {
 		return {aminoAcid: "Thr", fullName: "Threonine"};
 	}
-	if (codon.baseTrio === "AAU" || codon.baseTrio === "AAC") {
+	if (isAsparagine(codon.baseTrio)) {
 		return {aminoAcid: "Asn", fullName: "Asparagine"};
 	}
-	if (codon.baseTrio === "AAA" || codon.baseTrio === "AAG") {
+	if (isLysine(codon.baseTrio)) {
 		return {aminoAcid: "Lys", fullName: "Lysine"};
 	}
-	if (
-		// ew
-		codon.baseTrio === "AGU" ||
-		codon.baseTrio === "AGC" ||
-		codon.baseTrio === "UCU" ||
-		codon.baseTrio === "UCC" ||
-		codon.baseTrio === "UCA" ||
-		codon.baseTrio === "UCG"
-	) {
+	if (isSerine(codon.baseTrio)) {
 		return {aminoAcid: "Ser", fullName: "Serine"};
 	}
-	if (
-		// ew again
-		codon.baseTrio === "AGA" ||
-		codon.baseTrio === "AGG" ||
-		codon.baseTrio === "CGU" ||
-		codon.baseTrio === "CGC" ||
-		codon.baseTrio === "CGA" ||
-		codon.baseTrio === "CGG"
-	) {
+	if (isArginine(codon.baseTrio)) {
 		return {aminoAcid: "Arg", fullName: "Arginine"};
 	}
-	if (
-		// ew again again this function getting gross...
-		codon.baseTrio === "CUU" ||
-		codon.baseTrio === "CUC" ||
-		codon.baseTrio === "CUA" ||
-		codon.baseTrio === "CUG" ||
-		codon.baseTrio === "UUA" ||
-		codon.baseTrio === "UUG"
-	) {
+	if (isLeucine(codon.baseTrio)) {
 		return {aminoAcid: "Leu", fullName: "Leucine"};
 	}
-	if (codon.baseTrio === "CCU" || codon.baseTrio === "CCC" || codon.baseTrio === "CCA" || codon.baseTrio === "CCG") {
+	if (isProline(codon.baseTrio)) {
 		return {aminoAcid: "Pro", fullName: "Proline"};
 	}
-	if (codon.baseTrio === "CAU" || codon.baseTrio === "CAC") {
+	if (isHistidine(codon.baseTrio)) {
 		return {aminoAcid: "His", fullName: "Histidine"};
 	}
-	if (codon.baseTrio === "CAA" || codon.baseTrio === "CAG") {
+	if (isGlutamine(codon.baseTrio)) {
 		return {aminoAcid: "Gln", fullName: "Glutamine"};
 	}
-	if (codon.baseTrio === "UUU" || codon.baseTrio === "UUC") {
+	if (isPhenylalanine(codon.baseTrio)) {
 		return {aminoAcid: "Phe", fullName: "Phenylalanine"};
 	}
-	if (codon.baseTrio === "UAU" || codon.baseTrio === "UAC") {
+	if (isTyrosine(codon.baseTrio)) {
 		return {aminoAcid: "Tyr", fullName: "Tyrosine"};
 	}
-	if (codon.baseTrio === "UGU" || codon.baseTrio === "UGC") {
+	if (isCysteine(codon.baseTrio)) {
 		return {aminoAcid: "Cys", fullName: "Cysteine"};
 	}
-	if (codon.baseTrio === "UGG") {
+	if (isTryptophan(codon.baseTrio)) {
 		return {aminoAcid: "Trp", fullName: "Tryptophan"};
 	}
-	if (codon.baseTrio === "GUU" || codon.baseTrio === "GUC" || codon.baseTrio === "GUA" || codon.baseTrio === "GUG") {
+	if (isValine(codon.baseTrio)) {
 		return {aminoAcid: "Val", fullName: "Valine"};
 	}
-	if (codon.baseTrio === "GCU" || codon.baseTrio === "GCC" || codon.baseTrio === "GCA" || codon.baseTrio === "GCG") {
+	if (isAlanine(codon.baseTrio)) {
 		return {aminoAcid: "Ala", fullName: "Alanine"};
 	}
-	if (codon.baseTrio === "GAU" || codon.baseTrio === "GAC") {
+	if (isAsparticAcid(codon.baseTrio)) {
 		return {aminoAcid: "Asp", fullName: "Aspartic Acid"};
 	}
-	if (codon.baseTrio === "GAA" || codon.baseTrio === "GAG") {
+	if (isGlutamicAcid(codon.baseTrio)) {
 		return {aminoAcid: "Glu", fullName: "Glutamic Acid"};
 	}
-	if (codon.baseTrio === "GGU" || codon.baseTrio === "GGC" || codon.baseTrio === "GGA" || codon.baseTrio === "GGG") {
+	if (isGlycine(codon.baseTrio)) {
 		return {aminoAcid: "Gly", fullName: "Glycine"};
 	} else {
 		throw new Error("Invalid codon");
@@ -138,4 +114,101 @@ export function isMethionine(baseTrio: string): boolean {
 
 export function isStopCodon(baseTrio: string): boolean {
 	return baseTrio === "UAA" || baseTrio === "UAG" || baseTrio === "UGA";
+}
+
+export function isIsoleucine(baseTrio: string): boolean {
+	return baseTrio === "AUU" || baseTrio === "AUC" || baseTrio === "AUA";
+}
+
+export function isThreonine(baseTrio: string): boolean {
+	return baseTrio === "ACU" || baseTrio === "ACC" || baseTrio === "ACA" || baseTrio === "ACG";
+}
+
+export function isAsparagine(baseTrio: string): boolean {
+	return baseTrio === "AAU" || baseTrio === "AAC";
+}
+
+export function isLysine(baseTrio: string): boolean {
+	return baseTrio === "AAA" || baseTrio === "AAG";
+}
+
+export function isSerine(baseTrio: string): boolean {
+	return (
+		baseTrio === "AGU" ||
+		baseTrio === "AGC" ||
+		baseTrio === "UCU" ||
+		baseTrio === "UCC" ||
+		baseTrio === "UCA" ||
+		baseTrio === "UCG"
+	);
+}
+
+export function isArginine(baseTrio: string): boolean {
+	return (
+		baseTrio === "CGU" ||
+		baseTrio === "CGC" ||
+		baseTrio === "CGA" ||
+		baseTrio === "CGG" ||
+		baseTrio === "AGA" ||
+		baseTrio === "AGG"
+	);
+}
+
+export function isLeucine(baseTrio: string): boolean {
+	return (
+		baseTrio === "CUU" ||
+		baseTrio === "CUC" ||
+		baseTrio === "CUA" ||
+		baseTrio === "CUG" ||
+		baseTrio === "UUA" ||
+		baseTrio === "UUG"
+	);
+}
+
+export function isProline(baseTrio: string): boolean {
+	return baseTrio === "CCU" || baseTrio === "CCC" || baseTrio === "CCA" || baseTrio === "CCG";
+}
+
+export function isHistidine(baseTrio: string): boolean {
+	return baseTrio === "CAU" || baseTrio === "CAC";
+}
+
+export function isGlutamine(baseTrio: string): boolean {
+	return baseTrio === "CAA" || baseTrio === "CAG";
+}
+
+export function isPhenylalanine(baseTrio: string): boolean {
+	return baseTrio === "UUU" || baseTrio === "UUC";
+}
+
+export function isTyrosine(baseTrio: string): boolean {
+	return baseTrio === "UAU" || baseTrio === "UAC";
+}
+
+export function isCysteine(baseTrio: string): boolean {
+	return baseTrio === "UGU" || baseTrio === "UGC";
+}
+
+export function isTryptophan(baseTrio: string): boolean {
+	return baseTrio === "UGG";
+}
+
+export function isValine(baseTrio: string): boolean {
+	return baseTrio === "GUU" || baseTrio === "GUC" || baseTrio === "GUA" || baseTrio === "GUG";
+}
+
+export function isAlanine(baseTrio: string): boolean {
+	return baseTrio === "GCU" || baseTrio === "GCC" || baseTrio === "GCA" || baseTrio === "GCG";
+}
+
+export function isAsparticAcid(baseTrio: string): boolean {
+	return baseTrio === "GAU" || baseTrio === "GAC";
+}
+
+export function isGlutamicAcid(baseTrio: string): boolean {
+	return baseTrio === "GAA" || baseTrio === "GAG";
+}
+
+export function isGlycine(baseTrio: string): boolean {
+	return baseTrio === "GGU" || baseTrio === "GGC" || baseTrio === "GGA" || baseTrio === "GGG";
 }
