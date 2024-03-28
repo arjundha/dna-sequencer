@@ -31,25 +31,31 @@ export function convertRNAToFullPolypeptide(rna: RNA): Polypeptide {
 export function sequencePolypeptides(polypeptide: Polypeptide): Polypeptide[] {
 	let polypeptides: Polypeptide[] = [];
 	let currentPolypeptide: Polypeptide = {aminoAcids: []};
+	let peptideLength = polypeptide.aminoAcids.length;
 	let i = 0; // Start from the first possible peptide (RNA codon)
-	while (i < polypeptide.aminoAcids.length) {
+
+	while (i < peptideLength) {
 		// If we find the start of a new peptide, start a new polypeptide
 		if (polypeptide.aminoAcids[i].isStartCodon) {
 			currentPolypeptide = {aminoAcids: []};
 			currentPolypeptide.aminoAcids.push(polypeptide.aminoAcids[i]);
 			i++;
-			while (i < polypeptide.aminoAcids.length && !polypeptide.aminoAcids[i].isStopCodon) {
-				// Keep sequencing till we hit a stop codon or the end of the sequence
+
+			// Keep sequencing till we hit a stop codon or the end of the sequence
+			while (i < peptideLength && !polypeptide.aminoAcids[i].isStopCodon) {
 				currentPolypeptide.aminoAcids.push(polypeptide.aminoAcids[i]);
 				i++;
 			}
-			if (i < polypeptide.aminoAcids.length) {
-				// If we just hit a stop codon, add the polypeptide to the list
+
+			// If we just hit a stop codon, add the polypeptide to the list
+			if (i < peptideLength) {
 				polypeptides.push(currentPolypeptide);
 			}
+		} else {
+			i++;
 		}
 		// Move onto next amino acid
-		i++;
+		// i++; // TODO: confirm this is correct
 	}
 	return polypeptides;
 }
