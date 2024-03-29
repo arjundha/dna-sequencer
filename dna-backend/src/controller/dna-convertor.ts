@@ -1,10 +1,27 @@
-// TODO: Use pattern to handle different types of sequencing requests
-// So we will need an interface for the strategy and a class for each strategy
-// Strategies are: DNA --> RNA
-//                 RNA --> Protein
-//                 DNA --> Protein
-//                 Protein --> DNA
-//                 Protein --> RNA
-//                 RNA --> DNA
+import {Polypeptide} from "../models/proteins/Polypeptide";
 
-// TODO: Decide what pattern to use (strategy might not make as much sense here, might make more sense for file types?)
+export default class DNAConvertor {
+	constructor() {
+		console.log("Constructed new DNACovertor!");
+	}
+
+	public async translateDNAtoProtein(dna: string): Promise<Polypeptide[]> {
+		// validate the input
+		if (!dna) {
+			return Promise.reject(new Error("DNA sequence is empty."));
+		}
+		try {
+			// validate here
+		} catch (error) {
+			return Promise.reject(error);
+		}
+		// turn it into RNA
+		// translate it into protein
+		return new Promise<Polypeptide[]>((resolve, reject) => {
+			// call an async function
+			// .then the result
+			// .catch the error
+			resolve([]);
+		});
+	}
+}
