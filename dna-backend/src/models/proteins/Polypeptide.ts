@@ -47,15 +47,13 @@ export function sequencePolypeptides(polypeptide: Polypeptide): Polypeptide[] {
 				i++;
 			}
 
-			// If we just hit a stop codon, add the polypeptide to the list
+			// NOTE: We do NOT include STOP in the polypeptides
 			if (i < peptideLength) {
 				polypeptides.push(currentPolypeptide);
 			}
 		} else {
 			i++;
 		}
-		// Move onto next amino acid
-		// i++; // TODO: confirm this is correct
 	}
 	return polypeptides;
 }
