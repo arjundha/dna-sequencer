@@ -1,4 +1,4 @@
-// TODO: Use strategy pattern to handle different types of sequencing requests
+// TODO: Use pattern to handle different types of sequencing requests
 // So we will need an interface for the strategy and a class for each strategy
 // Strategies are: DNA --> RNA
 //                 RNA --> Protein
