@@ -7,6 +7,16 @@ export interface RNA {
 }
 
 /**
+ * Checks if a string is a valid RNA string (only contains A, U, C, or G)
+ *
+ * @param rna The string to check (CASE SENSTIVE)
+ * @returns A boolean indicating if the string is a valid RNA string
+ */
+export function isStringRNA(rna: string): boolean {
+	return /^[AUCG]+$/.test(rna);
+}
+
+/**
  * Converts a DNA object to an RNA object
  *
  * @param dna The DNA object being translated to RNA
