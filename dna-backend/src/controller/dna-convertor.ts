@@ -1,27 +1,34 @@
-import {Polypeptide} from "../models/proteins/Polypeptide";
+import {DNA, stringToDNA} from "../models/nucleic-acids/DNA";
+import {RNA, convertDNAtoRNA} from "../models/nucleic-acids/RNA";
+import {Polypeptide, convertRNAToFullPolypeptide} from "../models/proteins/Polypeptide";
+import {stringDNAtoPolypeptide, stringRNAtoPolypeptide} from "./performers/string-performers";
+import {validateDNAString, validateRNAString} from "./validators/dna-validator";
 
-export default class DNAConvertor {
-	constructor() {
-		console.log("Constructed new DNACovertor!");
+export function translateDNAStringtoProtein(dnaString: string): Promise<Polypeptide[]> {
+	if (!dnaString) {
+		return Promise.reject(new Error("DNA sequence is empty."));
 	}
+	try {
+		dnaString = dnaString.toUpperCase(); // Make all characters uppercase
+		dnaString = dnaString.replace(/\s/g, ""); // Remove all whitespace
+		validateDNAString(dnaString);
+	} catch (error) {
+		return Promise.reject(error);
+	}
+	return stringDNAtoPolypeptide(dnaString);
+}
 
-	public async translateDNAtoProtein(dna: string): Promise<Polypeptide[]> {
-		// validate the input
-		if (!dna) {
-			return Promise.reject(new Error("DNA sequence is empty."));
-		}
-		try {
-			// validate here
-		} catch (error) {
-			return Promise.reject(error);
-		}
-		// turn it into RNA
-		// translate it into protein
-		return new Promise<Polypeptide[]>((resolve, reject) => {
-			// call an async function
-			// .then the result
-			// .catch the error
-			resolve([]);
-		});
+export function translateRNAStringtoProtein(rnaString: string): Promise<Polypeptide[]> {
+	// validate the input
+	if (!rnaString) {
+		return Promise.reject(new Error("RNA sequence is empty."));
 	}
+	try {
+		rnaString = rnaString.toUpperCase(); // Make all characters uppercase
+		rnaString = rnaString.replace(/\s/g, ""); // Remove all whitespace
+		validateRNAString(rnaString);
+	} catch (error) {
+		return Promise.reject(error);
+	}
+	return stringRNAtoPolypeptide(rnaString);
 }
