@@ -5,7 +5,7 @@ import helmet from "helmet";
 
 import fsextra from "fs-extra";
 import multer from "multer";
-import {translateDNAStringtoProtein} from "./controller/dna-convertor";
+import {translateDNAStringtoProtein, translateRNAStringtoProtein} from "./controller/dna-convertor";
 
 // Env
 dotenv.config();
@@ -18,7 +18,11 @@ const port = process.env.PORT || 8000;
 app.use(cors());
 app.use(helmet());
 
-const upload = multer({dest: "uploads/"});
+// Multer setup
+const storage = multer.memoryStorage(); // We dont need to store files on server at this point
+const upload = multer({storage: storage});
+
+const fileWhiteList = ["text/plain"]; // MIME types (consider including "text/csv")
 
 // Routes / Endpoints
 app.get("/", (req: Request, res: Response) => {
@@ -41,23 +45,54 @@ app.post("/translateDNA", upload.none(), async (req: Request, res: Response) => 
 		console.log(response);
 		res.status(200).json(response);
 	} catch (error) {
-		console.log(error);
 		res.status(400).json({error: error});
 	}
 });
 
-app.post("/upload", upload.single("text-file"), (req: Request, res: Response) => {
-	console.log(req.file);
-	// console.log(req);
-	if (!req.file) {
-		res.send("No file uploaded");
-		return;
+app.post("/translateRNA", upload.none(), async (req: Request, res: Response) => {
+	try {
+		console.log(req.body.text); // TODO: update this with front end form input name
+		const rnaString = req.body.text;
+		console.log(rnaString);
+		const response = await translateRNAStringtoProtein(rnaString);
+		console.log(response);
+		res.status(200).json(response);
+	} catch (error) {
+		res.status(400).json({error: error});
 	}
-	// const multerText = Buffer.from(req.file.buffer).toString("utf-8"); // this reads and converts the contents of the text file into string
-	// console.log(multerText);
-	let data = fsextra.readFileSync(req.file.path, "utf8");
-	console.log(data);
-	res.send("Test");
+});
+
+app.post("/uploadDNAFromTextFile", upload.single("text-file"), async (req: Request, res: Response) => {
+	console.log(req.file);
+	if (!req.file) {
+		res.status(400).json({error: new Error("Please upload a file")});
+	} else if (!fileWhiteList.includes(req.file.mimetype)) {
+		res.status(400).json({error: new Error("Invalid file type: only txt or csv files are allowed")});
+	} else {
+		try {
+			const fileText = Buffer.from(req.file.buffer).toString("utf8");
+			const response = await translateDNAStringtoProtein(fileText);
+			res.status(200).json(response);
+		} catch (error) {
+			res.status(400).json({error: error});
+		}
+	}
+});
+
+app.post("/uploadRNAFromTextFile", upload.single("text-file"), async (req: Request, res: Response) => {
+	if (!req.file) {
+		res.status(400).json({error: new Error("Please upload a file")});
+	} else if (!fileWhiteList.includes(req.file.mimetype)) {
+		res.status(400).json({error: new Error("Invalid file type: only txt or csv files are allowed")});
+	} else {
+		try {
+			const fileText = Buffer.from(req.file.buffer).toString("utf8");
+			const response = await translateRNAStringtoProtein(fileText);
+			res.status(200).json(response);
+		} catch (error) {
+			res.status(400).json({error: error});
+		}
+	}
 });
 
 app.listen(port, () => {
