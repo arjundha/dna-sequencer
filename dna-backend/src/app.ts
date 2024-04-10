@@ -3,7 +3,6 @@ import dotenv from "dotenv";
 import cors from "cors";
 import helmet from "helmet";
 
-import fsextra from "fs-extra";
 import multer from "multer";
 import {translateDNAStringtoProtein, translateRNAStringtoProtein} from "./controller/dna-convertor";
 
@@ -53,9 +52,7 @@ app.post("/translateRNA", upload.none(), async (req: Request, res: Response) => 
 	try {
 		console.log(req.body.text); // TODO: update this with front end form input name
 		const rnaString = req.body.text;
-		console.log(rnaString);
 		const response = await translateRNAStringtoProtein(rnaString);
-		console.log(response);
 		res.status(200).json(response);
 	} catch (error) {
 		res.status(400).json({error: error});
