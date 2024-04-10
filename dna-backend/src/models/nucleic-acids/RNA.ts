@@ -1,4 +1,3 @@
-import {Base} from "./Base";
 import {Codon, DNACodonToRNACodon} from "./Codon";
 import {DNA} from "./DNA";
 
