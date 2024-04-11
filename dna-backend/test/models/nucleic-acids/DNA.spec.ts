@@ -1,4 +1,5 @@
 import {
+	DNAToString,
 	containsStartCodon,
 	containsStopCodon,
 	isStringDNA,
@@ -132,5 +133,15 @@ describe("containsStopCodon", () => {
 
 	it("should fail when there is no start codon and no stop", () => {
 		expect(containsStopCodon(dnaNoStartOrStop)).toBeFalsy();
+	});
+});
+
+describe("DNAToString", () => {
+	it("should make an empty string if the DNA object is empty", () => {
+		expect(DNAToString({nucleotides: []})).toEqual("");
+	});
+
+	it("should fail when there is a start codon and no stop", () => {
+		expect(DNAToString(dnaStartAndStop)).toEqual("ATGTAA");
 	});
 });

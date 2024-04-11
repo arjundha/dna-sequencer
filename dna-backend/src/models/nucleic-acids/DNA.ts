@@ -43,6 +43,20 @@ export function stringToDNA(dna: string): DNA {
 }
 
 /**
+ * Transforms a DNA object into a string
+ *
+ * @param dna the DNA object being transformed
+ * @returns a string that represents the DNA codons
+ */
+export function DNAToString(dna: DNA): string {
+	let dnaString = "";
+	for (let i = 0; i < dna.nucleotides.length; i++) {
+		dnaString += dna.nucleotides[i].baseTrio;
+	}
+	return dnaString;
+}
+
+/**
  * Checks if a DNA object is valid
  *
  * @param dna The DNA object being validated
