@@ -29,3 +29,16 @@ export function convertDNAtoRNA(dna: DNA): RNA {
 	}
 	return {ribonucleotides: codons};
 }
+
+/**
+ * Converts a RNA object into an DNA object
+ *
+ * @param dna The DNA object being translated
+ * @returns An RNA object that represents the original DNA object
+ */
+export function RNAtoDNA(rna: RNA): DNA {
+	const dna = rna.ribonucleotides.map((codon) => {
+		return {baseTrio: codon.baseTrio.replace(/U/g, "T")};
+	});
+	return {nucleotides: dna};
+}
