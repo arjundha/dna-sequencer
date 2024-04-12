@@ -1,6 +1,6 @@
 import {codonToAminoAcid} from "../nucleic-acids/Codon";
 import {RNA} from "../nucleic-acids/RNA";
-import {AminoAcid, printAminoAcids} from "./AminoAcid";
+import {AminoAcid, aminoAcidToCodon, printAminoAcids, stringToAminoAcid} from "./AminoAcid";
 
 export interface Polypeptide {
 	aminoAcids: AminoAcid[]; // A list of amino acids ex. [ { aminoAcid: "Ala" }, { aminoAcid: "Gly" }]
@@ -56,6 +56,56 @@ export function sequencePolypeptides(polypeptide: Polypeptide): Polypeptide[] {
 		}
 	}
 	return polypeptides;
+}
+
+/**
+ * Takes a list of strings and converts them into a list of polypeptides
+ * The list entries must each represent an amino acid (either three letters or full name) in title case
+ *
+ * @param polypeptideStrings A list of strings representing amino acids in the format Met or Methionine
+ * @returns A list of polypeptides that represent the original strings
+ */
+export function stringsToPolypeptides(polypeptideStrings: string[]): Polypeptide[] {
+	let fullPolypeptide: Polypeptide = {aminoAcids: []};
+	for (let i = 0; i < polypeptideStrings.length; i++) {
+		fullPolypeptide.aminoAcids.push(stringToAminoAcid(polypeptideStrings[i]));
+	}
+	return sequencePolypeptides(fullPolypeptide);
+}
+
+/**
+ * Converts a list of polypeptides into a single RNA sequence
+ * Assumes that the polypeptides do not have Stop in them
+ *
+ * @param polypeptides A list of polypeptides to reverse translate to RNA
+ * @returns A string that represents the RNA of the polypeptides
+ */
+export function polypeptidesToRNA(polypeptides: Polypeptide[]): RNA {
+	let fullRNA: RNA = {ribonucleotides: []};
+	for (let i = 0; i < polypeptides.length; i++) {
+		let temp = polypeptideToRNA(polypeptides[i]);
+		fullRNA.ribonucleotides.push(...temp.ribonucleotides);
+	}
+	return fullRNA;
+}
+
+/**
+ * Converts a single polypeptide into an RNA sequence with a Stop codon
+ *
+ * @param polypeptide The polypeptide to convert to RNA
+ * @returns An RNA object that represents the original polypeptide with a stop codon
+ */
+export function polypeptideToRNA(polypeptide: Polypeptide): RNA {
+	let rna: RNA = {ribonucleotides: []};
+	for (let i = 0; i < polypeptide.aminoAcids.length; i++) {
+		const aminoAcid = polypeptide.aminoAcids[i];
+		rna.ribonucleotides.push(aminoAcidToCodon(aminoAcid));
+	}
+	// Re add the stop codon
+	if (rna.ribonucleotides.length) {
+		rna.ribonucleotides.push({baseTrio: "UAA"});
+	}
+	return rna;
 }
 
 /**

@@ -1,5 +1,11 @@
 import {RNA} from "../../../src/models/nucleic-acids/RNA";
-import {Polypeptide, convertRNAToFullPolypeptide, sequencePolypeptides} from "../../../src/models/proteins/Polypeptide";
+import {
+	Polypeptide,
+	convertRNAToFullPolypeptide,
+	polypeptidesToRNA,
+	sequencePolypeptides,
+	stringsToPolypeptides,
+} from "../../../src/models/proteins/Polypeptide";
 
 const RNAStartToStop: RNA = {
 	ribonucleotides: [{baseTrio: "AUG"}, {baseTrio: "CUU"}, {baseTrio: "UUU"}, {baseTrio: "GGA"}, {baseTrio: "UAA"}],
@@ -292,5 +298,82 @@ describe("sequencePolypeptides", () => {
 			},
 		]);
 		expect(result.length).toBe(2);
+	});
+});
+
+describe("stringsToPolypeptides", () => {
+	it("should convert an empty list of strings to an empty list of Polypeptides", () => {
+		let strings: string[] = [];
+		expect(stringsToPolypeptides(strings)).toEqual([]);
+	});
+
+	it("should NOT convert a list of strings to a list of Polypeptides if strings arent well formed", () => {
+		expect(() => {
+			stringsToPolypeptides(["met", "methionine"]);
+		}).toThrow("Invalid amino acid string: received met but expected a valid amino acid");
+	});
+
+	it("should return an empty list if the strings do not have a start codon", () => {
+		expect(stringsToPolypeptides(["Leu", "Phe", "Gly"])).toEqual([]);
+	});
+
+	it("should return an empty list if the strings do not have a stop codon", () => {
+		expect(stringsToPolypeptides(["Met", "Leu", "Phe", "Gly"])).toEqual([]);
+	});
+
+	it("should return an empty list if the strings do not have a start or stop codon", () => {
+		expect(stringsToPolypeptides(["Ile", "Leu", "Phe", "Gly"])).toEqual([]);
+	});
+
+	it("should convert a list of strings to a list of Polypeptides", () => {
+		expect(stringsToPolypeptides(["Met", "Leu", "Phe", "Gly", "Stop"])).toEqual([
+			{
+				aminoAcids: [
+					{aminoAcid: "Met", fullName: "Methionine", isStartCodon: true},
+					{aminoAcid: "Leu", fullName: "Leucine"},
+					{aminoAcid: "Phe", fullName: "Phenylalanine"},
+					{aminoAcid: "Gly", fullName: "Glycine"},
+				],
+			},
+		]);
+	});
+
+	it("should convert a list of strings to a list of Polypeptides with two peptide chains", () => {
+		expect(stringsToPolypeptides(["Met", "Leu", "Stop", "Met", "Gly", "Stop", "Ile"])).toEqual([
+			{
+				aminoAcids: [
+					{aminoAcid: "Met", fullName: "Methionine", isStartCodon: true},
+					{aminoAcid: "Leu", fullName: "Leucine"},
+				],
+			},
+			{
+				aminoAcids: [
+					{aminoAcid: "Met", fullName: "Methionine", isStartCodon: true},
+					{aminoAcid: "Gly", fullName: "Glycine"},
+				],
+			},
+		]);
+	});
+});
+
+describe("polypeptidesToRNA", () => {
+	it("should convert an empty list of polypeptides to an empty RNA", () => {
+		let polypeptides: Polypeptide[] = [];
+		expect(polypeptidesToRNA(polypeptides)).toEqual({ribonucleotides: []});
+	});
+
+	it("should convert a list of polypeptides to an RNA with a stop codon", () => {
+		let input: Polypeptide[] = [
+			{
+				aminoAcids: [
+					{aminoAcid: "Met", fullName: "Methionine", isStartCodon: true},
+					{aminoAcid: "Leu", fullName: "Leucine"},
+					// NOTE: the stop codon is not included when we sequnce the polypeptides
+				],
+			},
+		];
+		expect(polypeptidesToRNA(input)).toEqual({
+			ribonucleotides: [{baseTrio: "AUG"}, {baseTrio: "CUU"}, {baseTrio: "UAA"}],
+		});
 	});
 });
