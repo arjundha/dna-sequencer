@@ -1,6 +1,6 @@
 import {Polypeptide} from "../models/proteins/Polypeptide";
 import {sanitizeNucleotideString, stringDNAtoPolypeptide, stringRNAtoPolypeptide} from "./performers/string-performers";
-import {validateDNAString, validateRNAString} from "./validators/dna-validator";
+import {validateDNAString, validateRNAString} from "./validators/string-validator";
 
 /**
  * Converts a DNA string into a list of polypeptides that it codes for

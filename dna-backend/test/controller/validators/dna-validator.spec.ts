@@ -1,4 +1,4 @@
-import {validateDNAString, validateRNAString} from "../../../src/controller/validators/dna-validator";
+import {validateDNAString, validateRNAString} from "../../../src/controller/validators/string-validator";
 
 describe("validateDNAString", () => {
 	it("should return true if the string is a valid DNA string", () => {
