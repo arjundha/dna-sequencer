@@ -1,6 +1,12 @@
 import {DNA, stringToDNA} from "../../models/nucleic-acids/DNA";
 import {RNA, convertDNAtoRNA} from "../../models/nucleic-acids/RNA";
-import {Polypeptide, convertRNAToFullPolypeptide, sequencePolypeptides} from "../../models/proteins/Polypeptide";
+import {stringToAminoAcid} from "../../models/proteins/AminoAcid";
+import {
+	Polypeptide,
+	convertRNAToFullPolypeptide,
+	polypeptideToRNA,
+	sequencePolypeptides,
+} from "../../models/proteins/Polypeptide";
 
 /**
  * Reformats a string of nucleotides to be all uppercase and have no whitespace
@@ -47,6 +53,24 @@ export async function stringRNAtoPolypeptide(rnaString: string): Promise<Polypep
 		// Easiest way is to turn the RNA into DNA and then convert it to a polypeptide
 		let dna = rnaString.replace(/U/g, "T");
 		return await stringDNAtoPolypeptide(dna);
+	} catch (error) {
+		throw new Error(error as string);
+	}
+}
+
+export function stringPolypeptideToRNA(polypeptide: string): RNA {
+	let aminoAcids: string[] = polypeptide.split(",");
+	for (let i = 0; i < aminoAcids.length; i++) {
+		aminoAcids[i] = aminoAcids[i].trim().toLowerCase();
+		aminoAcids[i] = aminoAcids[i].charAt(0).toUpperCase() + aminoAcids[i].slice(1);
+	}
+	try {
+		let peptideChain: Polypeptide = {aminoAcids: []};
+		for (let i = 0; i < aminoAcids.length; i++) {
+			peptideChain.aminoAcids.push(stringToAminoAcid(aminoAcids[i]));
+		}
+		let RNA: RNA = polypeptideToRNA(peptideChain);
+		return RNA;
 	} catch (error) {
 		throw new Error(error as string);
 	}
