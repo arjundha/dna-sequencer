@@ -11,6 +11,7 @@ dist/*
 
 # production
 /build
+/uploads
 
 # extension folders
 /.VSCodeCounter

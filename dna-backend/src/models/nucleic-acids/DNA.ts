@@ -1,4 +1,3 @@
-import {Base} from "./Base";
 import {Codon} from "./Codon";
 import {RNA} from "./RNA";
 
@@ -41,6 +40,20 @@ export function stringToDNA(dna: string): DNA {
 		codons.push({baseTrio: codon});
 	}
 	return {nucleotides: codons};
+}
+
+/**
+ * Transforms a DNA object into a string
+ *
+ * @param dna the DNA object being transformed
+ * @returns a string that represents the DNA codons
+ */
+export function DNAToString(dna: DNA): string {
+	let dnaString = "";
+	for (let i = 0; i < dna.nucleotides.length; i++) {
+		dnaString += dna.nucleotides[i].baseTrio;
+	}
+	return dnaString;
 }
 
 /**
