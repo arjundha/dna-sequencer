@@ -22,7 +22,8 @@ router.post("/fromDNA", upload.none(), async (req: Request, res: Response) => {
 		console.log(response);
 		res.status(200).json(response);
 	} catch (error) {
-		res.status(400).json({error: error});
+		let err: Error = error as Error;
+		res.status(400).json({error: err.message});
 	}
 });
 
@@ -70,4 +71,4 @@ router.post("/fromRNAFile", upload.single("text-file"), async (req: Request, res
 	}
 });
 
-export default router
+export default router;
