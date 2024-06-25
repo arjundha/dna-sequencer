@@ -33,39 +33,42 @@ router.post("/fromRNA", upload.none(), async (req: Request, res: Response) => {
 		const response = await translateRNAStringtoProtein(rnaString);
 		res.status(200).json(response);
 	} catch (error) {
-		res.status(400).json({error: error});
+		let err: Error = error as Error;
+		res.status(400).json({error: err.message});
 	}
 });
 
 router.post("/fromDNAFile", upload.single("text-file"), async (req: Request, res: Response) => {
 	console.log(req.file);
 	if (!req.file) {
-		res.status(400).json({error: new Error("Please upload a file")});
+		res.status(400).json({error: "Please upload a file"});
 	} else if (!fileWhiteList.includes(req.file.mimetype)) {
-		res.status(400).json({error: new Error("Invalid file type: only txt or csv files are allowed")});
+		res.status(400).json({error: "Invalid file type: only txt files are allowed"});
 	} else {
 		try {
 			const fileText = Buffer.from(req.file.buffer).toString("utf8");
 			const response = await translateDNAStringtoProtein(fileText);
 			res.status(200).json(response);
 		} catch (error) {
-			res.status(400).json({error: error});
+			let err: Error = error as Error;
+			res.status(400).json({error: err.message});
 		}
 	}
 });
 
 router.post("/fromRNAFile", upload.single("text-file"), async (req: Request, res: Response) => {
 	if (!req.file) {
-		res.status(400).json({error: new Error("Please upload a file")});
+		res.status(400).json({error: "Please upload a file"});
 	} else if (!fileWhiteList.includes(req.file.mimetype)) {
-		res.status(400).json({error: new Error("Invalid file type: only txt or csv files are allowed")});
+		res.status(400).json({error: "Invalid file type: only txt files are allowed"});
 	} else {
 		try {
 			const fileText = Buffer.from(req.file.buffer).toString("utf8");
 			const response = await translateRNAStringtoProtein(fileText);
 			res.status(200).json(response);
 		} catch (error) {
-			res.status(400).json({error: error});
+			let err: Error = error as Error;
+			res.status(400).json({error: err.message});
 		}
 	}
 });
