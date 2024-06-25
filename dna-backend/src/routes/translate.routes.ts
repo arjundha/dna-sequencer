@@ -14,7 +14,6 @@ const fileWhiteList = ["text/plain"]; // MIME types (consider including "text/cs
 router.post("/fromDNA", upload.none(), async (req: Request, res: Response) => {
 	try {
 		console.log("/translateDNA called");
-		console.log(req.body);
 		console.log(req.body.text); // TODO: update this with front end form input name
 		const dnaString = req.body.text;
 		console.log(dnaString);
