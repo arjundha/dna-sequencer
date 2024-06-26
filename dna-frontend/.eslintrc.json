@@ -6,10 +6,13 @@
 	},
 	"extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended", "plugin:react/recommended", "prettier"],
 	"parser": "@typescript-eslint/parser",
+	"globals": {
+		"__dirname": true
+	},
 	"parserOptions": {
 		"ecmaVersion": "latest",
 		"sourceType": "module",
-		"project": "./tsconfig.json"
+		"project": "**/tsconfig.json"
 	},
 	"plugins": ["@typescript-eslint", "react", "@typescript-eslint", "prettier"],
 	"rules": {
@@ -42,11 +45,11 @@
 			},
 			{
 				"selector": "function",
-				"format": ["camelCase"]
+				"format": ["camelCase", "PascalCase"]
 			},
 			{
 				"selector": "variable",
-				"format": ["camelCase", "UPPER_CASE"]
+				"format": ["camelCase", "UPPER_CASE", "PascalCase"]
 			}
 		],
 		"@typescript-eslint/no-confusing-non-null-assertion": "error",
@@ -83,6 +86,8 @@
 				"code": 120,
 				"ignoreComments": true
 			}
-		]
+		],
+		"react/react-in-jsx-scope": "off",
+		"react/jsx-uses-react": "off"
 	}
 }
