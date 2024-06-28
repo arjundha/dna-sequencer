@@ -1,13 +1,42 @@
 import {Box, Button, TextField} from "@mui/material";
+import {useState} from "react";
 
 const SequencerForm = () => {
+	const [isFormInvalid, setIsFormInvalid] = useState(false);
+	const [errorMessage, setErrorMessage] = useState("");
+
+	function isValidSequence(sequence: string): boolean {
+		const regex = /^[ATCG]*$/;
+		return regex.test(sequence);
+	}
+
+	function validateInput(text: string): boolean {
+		text = text.replace(/\s/g, "");
+		if (!text) {
+			setErrorMessage("Please enter a DNA sequence - DNA sequence was empty.");
+			setIsFormInvalid(true);
+			return false;
+		}
+		text = text.toUpperCase();
+		if (!isValidSequence(text)) {
+			setErrorMessage("Invalid DNA string: Must consist of only A, T, C, and G characters.");
+			setIsFormInvalid(true);
+			return false;
+		}
+		setIsFormInvalid(false);
+		setErrorMessage("");
+		return true;
+	}
+
 	// Submit Handler for Button!
 	const submitHandler = (event: React.SyntheticEvent) => {
 		console.log("submit called");
 		event.preventDefault();
 		let data: FormData = new FormData(event.target as HTMLFormElement);
 		let text: string = data.get("text") as string;
-		translateDNAStringtoProtein(text);
+		if (validateInput(text)) {
+			translateDNAStringtoProtein(text);
+		}
 	};
 
 	// Function to call the backend API and receive some response
@@ -36,7 +65,8 @@ const SequencerForm = () => {
 				}
 			})
 			.catch((error) => {
-				alert(error);
+				setIsFormInvalid(true);
+				setErrorMessage(error.message);
 			});
 	}
 
@@ -50,6 +80,8 @@ const SequencerForm = () => {
 				rows={6}
 				fullWidth
 				defaultValue="Insert a DNA sequence here..."
+				helperText={errorMessage}
+				error={isFormInvalid}
 			/>
 			<Box sx={{p: 1}}></Box>
 			<Button variant="outlined" type="submit">
