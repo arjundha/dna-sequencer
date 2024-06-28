@@ -36,14 +36,14 @@ function a11yProps(index: number) {
 export default function BasicTabs() {
 	const [value, setValue] = React.useState(0);
 
-	const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+	const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
 		setValue(newValue);
 	};
 
 	return (
 		<Box sx={{width: "100%"}}>
 			<Box sx={{borderBottom: 1, borderColor: "divider"}}>
-				<Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+				<Tabs value={value} onChange={handleChange} aria-label="basic tabs example" centered>
 					<Tab label="DNA Sequencer" {...a11yProps(0)} />
 					<Tab label="RNA Translater" {...a11yProps(1)} />
 					<Tab label="Sequence from File" {...a11yProps(2)} />
