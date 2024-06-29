@@ -42,7 +42,7 @@ export default function BasicTabs() {
 					value={value}
 					onChange={handleChange}
 					aria-label="basic tabs example"
-					centered
+					// centered
 					variant="scrollable"
 					scrollButtons="auto"
 				>
