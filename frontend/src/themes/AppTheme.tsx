@@ -21,7 +21,7 @@ export const themeOptions: ThemeOptions = {
 		MuiButton: {
 			styleOverrides: {
 				root: {
-					background: "linear-gradient(45deg, #083D77 30%, #F95738 90%)",
+					background: "linear-gradient(135deg, #083D77 30%, #EE964B 90%)",
 					border: 0,
 					borderRadius: 3,
 					boxShadow: "0 3px 5px 2px rgba(8, 61, 119, .3)",
