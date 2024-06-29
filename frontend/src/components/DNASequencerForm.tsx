@@ -68,7 +68,7 @@ const DNASequencerForm = () => {
 
 	// Function to call the backend API and receive some response
 	function translateDNAStringtoProtein(dnaString: string) {
-		return fetch("http://localhost:8000/translate/fromDNA", {
+		return fetch("https://dna-sequencer-backend.onrender.com/translate/fromDNA", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",

@@ -63,7 +63,7 @@ const FileUploadForm = () => {
 
 	// Endpoint callers
 	function translateDNAFiletoProtein(formData: FormData) {
-		return fetch("http://localhost:8000/translate/fromDNAFile", {
+		return fetch("https://dna-sequencer-backend.onrender.com/translate/fromDNAFile", {
 			method: "POST",
 			body: formData,
 		})
@@ -85,7 +85,7 @@ const FileUploadForm = () => {
 	}
 
 	function translateRNAFiletoProtein(formData: FormData) {
-		return fetch("http://localhost:8000/translate/fromRNAFile", {
+		return fetch("https://dna-sequencer-backend.onrender.com/translate/fromRNAFile", {
 			method: "POST",
 			body: formData,
 		})

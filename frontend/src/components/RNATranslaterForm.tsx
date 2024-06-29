@@ -68,7 +68,7 @@ const RNATranslatorFrom = () => {
 
 	// Function to call the backend API and receive some response
 	function translateRNAStringtoProtein(rnaString: string) {
-		return fetch("http://localhost:8000/translate/fromRNA", {
+		return fetch("https://dna-sequencer-backend.onrender.com/translate/fromRNA", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
