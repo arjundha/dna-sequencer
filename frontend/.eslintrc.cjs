@@ -1,35 +1,35 @@
-{
-	"env": {
-		"browser": true,
-		"es2021": true,
-		"jest": true
-	},
-	"extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended", "plugin:react/recommended", "prettier"],
-	"parser": "@typescript-eslint/parser",
-	"parserOptions": {
-		"ecmaVersion": "latest",
-		"sourceType": "module",
-		"project": "./tsconfig.json"
-	},
-	"plugins": ["@typescript-eslint", "react", "@typescript-eslint", "prettier"],
-	"rules": {
+module.exports = {
+	root: true,
+	env: {browser: true, es2020: true},
+	extends: [
+		"eslint:recommended",
+		"plugin:@typescript-eslint/recommended",
+		"plugin:react-hooks/recommended",
+		"prettier",
+	],
+	ignorePatterns: ["dist", ".eslintrc.cjs"],
+	parser: "@typescript-eslint/parser",
+	plugins: ["react-refresh", "prettier"],
+	rules: {
+		"react-refresh/only-export-components": ["warn", {allowConstantExport: true}],
+
 		"@typescript-eslint/await-thenable": "error",
 		"@typescript-eslint/adjacent-overload-signatures": "error",
 		"@typescript-eslint/array-type": "error",
 		"@typescript-eslint/ban-ts-comment": [
 			"error",
 			{
-				"ts-expect-error": "allow-with-description"
-			}
+				"ts-expect-error": "allow-with-description",
+			},
 		],
 		"@typescript-eslint/ban-types": "error",
 		"@typescript-eslint/explicit-member-accessibility": [
 			"error",
 			{
-				"overrides": {
-					"constructors": "off"
-				}
-			}
+				overrides: {
+					constructors: "off",
+				},
+			},
 		],
 		"@typescript-eslint/consistent-type-assertions": "error",
 		"@typescript-eslint/consistent-type-definitions": "error",
@@ -37,17 +37,17 @@
 		"@typescript-eslint/naming-convention": [
 			"error",
 			{
-				"selector": "typeLike",
-				"format": ["PascalCase"]
+				selector: "typeLike",
+				format: ["PascalCase"],
 			},
 			{
-				"selector": "function",
-				"format": ["camelCase"]
+				selector: "function",
+				format: ["camelCase"],
 			},
 			{
-				"selector": "variable",
-				"format": ["camelCase", "UPPER_CASE"]
-			}
+				selector: "variable",
+				format: ["camelCase", "UPPER_CASE"],
+			},
 		],
 		"@typescript-eslint/no-confusing-non-null-assertion": "error",
 		"@typescript-eslint/no-confusing-void-expression": "error",
@@ -80,9 +80,9 @@
 		"max-len": [
 			"error",
 			{
-				"code": 120,
-				"ignoreComments": true
-			}
-		]
-	}
-}
+				code: 120,
+				ignoreComments: true,
+			},
+		],
+	},
+};
