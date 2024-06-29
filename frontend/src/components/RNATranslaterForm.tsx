@@ -3,11 +3,11 @@ import {useState} from "react";
 import {Polypeptide} from "../interfaces/Polypeptide";
 import Confetti from "react-confetti";
 
-const SequencerForm = () => {
+const RNATranslatorFrom = () => {
 	// Hooks
 	const [isFormInvalid, setIsFormInvalid] = useState(false);
 	const [errorMessage, setErrorMessage] = useState("");
-	const [sequencedProtein, setSequencedProtein] = useState("");
+	const [translatedProtein, setTranslatedProtein] = useState("");
 	const [sequenceSuccess, setSequenceSuccess] = useState(false);
 	const [selectedValue, setSelectedValue] = useState("short");
 
@@ -18,20 +18,20 @@ const SequencerForm = () => {
 
 	// Helpers
 	function isValidSequence(sequence: string): boolean {
-		const regex = /^[ATCG]*$/;
+		const regex = /^[AUCG]*$/;
 		return regex.test(sequence);
 	}
 
 	function validateInput(text: string): boolean {
 		text = text.replace(/\s/g, "");
 		if (!text) {
-			setErrorMessage("Please enter a DNA sequence - DNA sequence was empty.");
+			setErrorMessage("Please enter an RNA sequence - RNA sequence was empty.");
 			setIsFormInvalid(true);
 			return false;
 		}
 		text = text.toUpperCase();
 		if (!isValidSequence(text)) {
-			setErrorMessage("Invalid DNA string: Must consist of only A, T, C, and G characters.");
+			setErrorMessage("Invalid RNA string: Must consist of only A, U, C, and G characters.");
 			setIsFormInvalid(true);
 			return false;
 		}
@@ -46,7 +46,7 @@ const SequencerForm = () => {
 		let data: FormData = new FormData(event.target as HTMLFormElement);
 		let text: string = data.get("text") as string;
 		if (validateInput(text)) {
-			translateDNAStringtoProtein(text);
+			translateRNAStringtoProtein(text);
 		}
 	};
 
@@ -63,14 +63,14 @@ const SequencerForm = () => {
 	};
 
 	// Function to call the backend API and receive some response
-	function translateDNAStringtoProtein(dnaString: string) {
-		return fetch("http://localhost:8000/translate/fromDNA", {
+	function translateRNAStringtoProtein(rnaString: string) {
+		return fetch("http://localhost:8000/translate/fromRNA", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify({
-				text: dnaString,
+				text: rnaString,
 			}),
 		})
 			.then((response) => {
@@ -81,7 +81,7 @@ const SequencerForm = () => {
 						// @TODO do something here with the data
 						// Also do the cool UX idea
 						generatePeptideString(data);
-						selectedValue === "short" ? setSequencedProtein(aminoAcids) : setSequencedProtein(fullNames);
+						selectedValue === "short" ? setTranslatedProtein(aminoAcids) : setTranslatedProtein(fullNames);
 						generateConfetti();
 					});
 				} else {
@@ -125,7 +125,7 @@ const SequencerForm = () => {
 			<form onSubmit={submitHandler}>
 				<Confetti
 					recycle={false}
-					numberOfPieces={sequenceSuccess ? 400 : 0}
+					numberOfPieces={sequenceSuccess ? 500 : 0}
 					onConfettiComplete={(confetti) => {
 						setSequenceSuccess(false);
 						if (confetti) {
@@ -134,13 +134,13 @@ const SequencerForm = () => {
 					}}
 				/>
 				<TextField
-					id="dna-text"
-					label="DNA Sequence"
+					id="rna-text"
+					label="RNA Sequence"
 					name="text"
 					multiline
 					rows={6}
 					fullWidth
-					defaultValue="Insert a DNA sequence here..."
+					defaultValue="Insert an RNA sequence here..."
 					helperText={errorMessage}
 					error={isFormInvalid}
 					onFocus={focusHandler}
@@ -165,13 +165,13 @@ const SequencerForm = () => {
 				<Box sx={{p: 1}}></Box>
 
 				<TextField
-					id="dna-sequenced"
-					label="Polypeptides Sequenced"
-					name="dna-sequenced"
+					id="rna-transalted"
+					label="Polypeptides Translated"
+					name="rna-translated"
 					multiline
 					rows={6}
 					fullWidth
-					value={sequencedProtein}
+					value={translatedProtein}
 					inputProps={{readOnly: true}}
 					color="primary"
 					variant="filled"
@@ -182,4 +182,4 @@ const SequencerForm = () => {
 	);
 };
 
-export default SequencerForm;
+export default RNATranslatorFrom;

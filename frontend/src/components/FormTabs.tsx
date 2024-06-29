@@ -2,7 +2,8 @@ import * as React from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
-import SequencerForm from "./SequencerForm";
+import DNASequencerForm from "./DNASequencerForm";
+import RNATranslatorFrom from "./RNATranslaterForm";
 
 interface TabPanelProps {
 	children?: React.ReactNode;
@@ -50,10 +51,10 @@ export default function BasicTabs() {
 				</Tabs>
 			</Box>
 			<CustomTabPanel value={value} index={0}>
-				<SequencerForm />
+				<DNASequencerForm />
 			</CustomTabPanel>
 			<CustomTabPanel value={value} index={1}>
-				RNA to Polypeptide
+				<RNATranslatorFrom />
 			</CustomTabPanel>
 			<CustomTabPanel value={value} index={2}>
 				Text File to Polypeptide
