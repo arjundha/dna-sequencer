@@ -3,7 +3,7 @@ import {useState} from "react";
 import {Polypeptide} from "../interfaces/Polypeptide";
 import Confetti from "react-confetti";
 
-const SequencerForm = () => {
+const DNASequencerForm = () => {
 	// Hooks
 	const [isFormInvalid, setIsFormInvalid] = useState(false);
 	const [errorMessage, setErrorMessage] = useState("");
@@ -77,16 +77,12 @@ const SequencerForm = () => {
 				// If the response is good do the following
 				if (response.ok) {
 					response.json().then((data) => {
-						console.log(data);
-						// @TODO do something here with the data
-						// Also do the cool UX idea
 						generatePeptideString(data);
 						selectedValue === "short" ? setSequencedProtein(aminoAcids) : setSequencedProtein(fullNames);
 						generateConfetti();
 					});
 				} else {
 					// If the response is NOT ok then do the following and catch the error
-					console.log(response);
 					throw new Error(response.statusText);
 				}
 			})
@@ -125,7 +121,7 @@ const SequencerForm = () => {
 			<form onSubmit={submitHandler}>
 				<Confetti
 					recycle={false}
-					numberOfPieces={sequenceSuccess ? 400 : 0}
+					numberOfPieces={sequenceSuccess ? 500 : 0}
 					onConfettiComplete={(confetti) => {
 						setSequenceSuccess(false);
 						if (confetti) {
@@ -182,4 +178,4 @@ const SequencerForm = () => {
 	);
 };
 
-export default SequencerForm;
+export default DNASequencerForm;
