@@ -77,16 +77,12 @@ const DNASequencerForm = () => {
 				// If the response is good do the following
 				if (response.ok) {
 					response.json().then((data) => {
-						console.log(data);
-						// @TODO do something here with the data
-						// Also do the cool UX idea
 						generatePeptideString(data);
 						selectedValue === "short" ? setSequencedProtein(aminoAcids) : setSequencedProtein(fullNames);
 						generateConfetti();
 					});
 				} else {
 					// If the response is NOT ok then do the following and catch the error
-					console.log(response);
 					throw new Error(response.statusText);
 				}
 			})
