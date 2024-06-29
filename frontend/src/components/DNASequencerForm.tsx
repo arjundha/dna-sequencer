@@ -82,8 +82,15 @@ const DNASequencerForm = () => {
 				if (response.ok) {
 					response.json().then((data) => {
 						generatePeptideString(data);
-						selectedValue === "short" ? setSequencedProtein(aminoAcids) : setSequencedProtein(fullNames);
-						generateConfetti();
+						if (aminoAcids === "") {
+							setErrorMessage(
+								"Your DNA was well formed, but DNA can only sequence with both a start and a stop codon. In order to sequence a protein, ensure you have both a start (ATG) and a stop codon (TAG, TAA, TGA).",
+							);
+							setIsFormInvalid(true);
+						} else {
+							selectedValue === "short" ? setSequencedProtein(aminoAcids) : setSequencedProtein(fullNames);
+							generateConfetti();
+						}
 					});
 				} else {
 					// If the response is NOT ok then do the following and catch the error

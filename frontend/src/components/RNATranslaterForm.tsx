@@ -82,6 +82,12 @@ const RNATranslatorFrom = () => {
 				if (response.ok) {
 					response.json().then((data) => {
 						generatePeptideString(data);
+						if (aminoAcids === "") {
+							setErrorMessage(
+								"Your RNA was well formed, but RNA can only sequence with both a start and a stop codon. In order to sequence a protein, ensure you have both a start (AUG) and a stop codon (UAG, UAA, UGA).",
+							);
+							setIsFormInvalid(true);
+						}
 						selectedValue === "short" ? setTranslatedProtein(aminoAcids) : setTranslatedProtein(fullNames);
 						generateConfetti();
 					});

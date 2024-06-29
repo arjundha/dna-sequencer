@@ -55,10 +55,17 @@ const FileUploadForm = () => {
 	function handleSuccessfulResponse(data: any) {
 		setOpen(false);
 		generatePeptideString(data);
-		setIsFormInvalid(false);
-		setErrorMessage("");
-		selectedValue === "short" ? setTranslatedProtein(aminoAcids) : setTranslatedProtein(fullNames);
-		generateConfetti();
+		if (aminoAcids === "") {
+			setErrorMessage(
+				"No polypeptides were found in the file. Either your strand coded for nothing, or was missing a start or stop codon.",
+			);
+			setIsFormInvalid(true);
+		} else {
+			setIsFormInvalid(false);
+			setErrorMessage("");
+			selectedValue === "short" ? setTranslatedProtein(aminoAcids) : setTranslatedProtein(fullNames);
+			generateConfetti();
+		}
 	}
 
 	// Endpoint callers
@@ -79,7 +86,9 @@ const FileUploadForm = () => {
 			})
 			.catch((error) => {
 				setIsFormInvalid(true);
-				setErrorMessage(error.message);
+				setErrorMessage(
+					error.message || "An error occurred reading your file. Ensure it is a .txt file with a valid DNA sequence.",
+				);
 				setOpen(false);
 			});
 	}
@@ -101,7 +110,9 @@ const FileUploadForm = () => {
 			})
 			.catch((error) => {
 				setIsFormInvalid(true);
-				setErrorMessage(error.message);
+				setErrorMessage(
+					error.message || "An error occurred reading your file. Ensure it is a .txt file with a valid RNA sequence.",
+				);
 				setOpen(false);
 			});
 	}
