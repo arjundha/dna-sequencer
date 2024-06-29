@@ -45,8 +45,10 @@ router.post("/fromRNA", upload.none(), async (req: Request, res: Response) => {
 router.post("/fromDNAFile", upload.single("text-file"), async (req: Request, res: Response) => {
 	console.log(req.file);
 	if (!req.file) {
+		res.statusMessage = "Please upload a file";
 		res.status(400).json({error: "Please upload a file"});
 	} else if (!fileWhiteList.includes(req.file.mimetype)) {
+		res.statusMessage = "Invalid file type: only txt files are allowed";
 		res.status(400).json({error: "Invalid file type: only txt files are allowed"});
 	} else {
 		try {
@@ -56,6 +58,8 @@ router.post("/fromDNAFile", upload.single("text-file"), async (req: Request, res
 		} catch (error) {
 			let err: Error = error as Error;
 			res.statusMessage = err.message;
+			console.log(err);
+
 			res.status(400).json({error: err.message});
 		}
 	}
