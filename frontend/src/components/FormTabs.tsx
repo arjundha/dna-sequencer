@@ -28,13 +28,6 @@ function CustomTabPanel(props: TabPanelProps) {
 	);
 }
 
-function a11yProps(index: number) {
-	return {
-		id: `simple-tab-${index}`,
-		"aria-controls": `simple-tabpanel-${index}`,
-	};
-}
-
 export default function BasicTabs() {
 	const [value, setValue] = React.useState(0);
 
@@ -45,10 +38,17 @@ export default function BasicTabs() {
 	return (
 		<Box sx={{width: "100%"}}>
 			<Box sx={{borderBottom: 1, borderColor: "divider"}}>
-				<Tabs value={value} onChange={handleChange} aria-label="basic tabs example" centered>
-					<Tab label="DNA Sequencer" {...a11yProps(0)} />
-					<Tab label="RNA Translater" {...a11yProps(1)} />
-					<Tab label="Sequence from File" {...a11yProps(2)} />
+				<Tabs
+					value={value}
+					onChange={handleChange}
+					aria-label="basic tabs example"
+					centered
+					variant="scrollable"
+					scrollButtons="auto"
+				>
+					<Tab label="DNA Sequencer" />
+					<Tab label="RNA Translater" />
+					<Tab label="Sequence from File" />
 				</Tabs>
 			</Box>
 			<CustomTabPanel value={value} index={0}>

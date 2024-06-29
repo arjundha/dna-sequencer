@@ -96,7 +96,6 @@ export function containsStopCodon(dna: DNA): boolean {
  */
 export function stopCodonAfterStartCodon(dna: DNA): boolean {
 	const startCodonIndex = dna.nucleotides.findIndex((codon) => codon.baseTrio === "ATG");
-	console.log(startCodonIndex);
 
 	if (startCodonIndex === -1) {
 		// if there is no start codon, then we fail

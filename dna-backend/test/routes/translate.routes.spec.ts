@@ -64,7 +64,6 @@ describe("/fromDNAFile POST", () => {
 		const res = await request(app).post("/translate/fromDNAFile").attach("text-file", "test/test-files/test-csv.csv");
 		expect(res.status).toEqual(400);
 		expect(res.body).toHaveProperty("error");
-		console.log(res.body.error);
 		expect(res.body.error).toEqual("Invalid file type: only txt files are allowed");
 	});
 
