@@ -1,4 +1,4 @@
-import {Box, Button, FormControlLabel, Radio, RadioGroup, TextField} from "@mui/material";
+import {Backdrop, Box, Button, CircularProgress, FormControlLabel, Radio, RadioGroup, TextField} from "@mui/material";
 import {useState} from "react";
 import {Polypeptide} from "../interfaces/Polypeptide";
 import Confetti from "react-confetti";
@@ -10,6 +10,7 @@ const RNATranslatorFrom = () => {
 	const [translatedProtein, setTranslatedProtein] = useState("");
 	const [sequenceSuccess, setSequenceSuccess] = useState(false);
 	const [selectedValue, setSelectedValue] = useState("short");
+	const [open, setOpen] = useState(false);
 
 	// Global variables
 	let hasBeenFocused = false;
@@ -43,10 +44,13 @@ const RNATranslatorFrom = () => {
 	// Submit Handler for Button!
 	const submitHandler = (event: React.SyntheticEvent) => {
 		event.preventDefault();
+		setOpen(true);
 		let data: FormData = new FormData(event.target as HTMLFormElement);
 		let text: string = data.get("text") as string;
 		if (validateInput(text)) {
 			translateRNAStringtoProtein(text);
+		} else {
+			setOpen(false);
 		}
 	};
 
@@ -85,10 +89,12 @@ const RNATranslatorFrom = () => {
 					// If the response is NOT ok then do the following and catch the error
 					throw new Error(response.statusText);
 				}
+				setOpen(false);
 			})
 			.catch((error) => {
 				setIsFormInvalid(true);
 				setErrorMessage(error.message);
+				setOpen(false);
 			});
 	}
 
@@ -173,6 +179,10 @@ const RNATranslatorFrom = () => {
 					variant="filled"
 					sx={{backgroundColor: "#ebebd3c8", opacity: 0.8}}
 				/>
+
+				<Backdrop sx={{color: "#fff", zIndex: 1}} open={open}>
+					<CircularProgress color="inherit" />
+				</Backdrop>
 			</form>
 		</>
 	);

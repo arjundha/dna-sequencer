@@ -1,4 +1,14 @@
-import {Box, Button, FormControlLabel, Radio, RadioGroup, TextField, styled} from "@mui/material";
+import {
+	Backdrop,
+	Box,
+	Button,
+	CircularProgress,
+	FormControlLabel,
+	Radio,
+	RadioGroup,
+	TextField,
+	styled,
+} from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import {useState} from "react";
 import {Polypeptide} from "../interfaces/Polypeptide";
@@ -12,6 +22,7 @@ const FileUploadForm = () => {
 	const [sequenceSuccess, setSequenceSuccess] = useState(false);
 	const [selectedFileValue, setSelectedFileValue] = useState("dna");
 	const [selectedValue, setSelectedValue] = useState("short");
+	const [open, setOpen] = useState(false);
 
 	// Global variables
 	let aminoAcids: string = "";
@@ -28,6 +39,7 @@ const FileUploadForm = () => {
 
 	const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
 		if (!event.target.files) return;
+		setOpen(true);
 
 		let file = event.target.files[0];
 		const formData = new FormData();
@@ -41,6 +53,7 @@ const FileUploadForm = () => {
 
 	// Response handler
 	function handleSuccessfulResponse(data: any) {
+		setOpen(false);
 		generatePeptideString(data);
 		setIsFormInvalid(false);
 		setErrorMessage("");
@@ -62,10 +75,12 @@ const FileUploadForm = () => {
 				} else {
 					throw new Error(response.statusText);
 				}
+				setOpen(false);
 			})
 			.catch((error) => {
 				setIsFormInvalid(true);
 				setErrorMessage(error.message);
+				setOpen(false);
 			});
 	}
 
@@ -82,10 +97,12 @@ const FileUploadForm = () => {
 				} else {
 					throw new Error(response.statusText);
 				}
+				setOpen(false);
 			})
 			.catch((error) => {
 				setIsFormInvalid(true);
 				setErrorMessage(error.message);
+				setOpen(false);
 			});
 	}
 
@@ -182,6 +199,9 @@ const FileUploadForm = () => {
 					helperText={errorMessage}
 					error={isFormInvalid}
 				/>
+				<Backdrop sx={{color: "#fff", zIndex: 1}} open={open}>
+					<CircularProgress color="inherit" />
+				</Backdrop>
 			</form>
 		</>
 	);
