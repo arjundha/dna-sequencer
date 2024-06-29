@@ -144,6 +144,8 @@ const SequencerForm = () => {
 					helperText={errorMessage}
 					error={isFormInvalid}
 					onFocus={focusHandler}
+					variant="filled"
+					sx={{backgroundColor: "#ebebd3c8", opacity: 0.8}}
 				/>
 				<RadioGroup
 					row
@@ -172,6 +174,8 @@ const SequencerForm = () => {
 					value={sequencedProtein}
 					inputProps={{readOnly: true}}
 					color="primary"
+					variant="filled"
+					sx={{backgroundColor: "#ebebd3c8", opacity: 0.8}}
 				/>
 			</form>
 		</>
