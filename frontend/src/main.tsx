@@ -14,7 +14,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 			<CssBaseline />
 			{/* Blobs from: https://dev.to/uuuuuulala/making-background-blob-animation-in-just-15kb-step-by-step-guide-2482 */}
 			<svg className="special-svg" preserveAspectRatio="xMidYMid slice" viewBox="10 10 80 80">
-				<defs></defs>
 				<path
 					fill="#F95738"
 					className="out-top"
