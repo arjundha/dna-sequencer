@@ -4,9 +4,11 @@ import {
 	Button,
 	CircularProgress,
 	FormControlLabel,
+	Grid,
 	Radio,
 	RadioGroup,
 	TextField,
+	Typography,
 	styled,
 } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
@@ -211,7 +213,13 @@ const FileUploadForm = () => {
 					error={isFormInvalid}
 				/>
 				<Backdrop sx={{color: "#fff", zIndex: 1}} open={open}>
-					<CircularProgress color="inherit" />
+					<Grid>
+						<CircularProgress color="inherit" />
+						<Typography variant={"h5"}>Sequencing...</Typography>
+						<Typography variant={"caption"}>
+							If the server has been inactive, the first call may take 30-50s to respond.
+						</Typography>
+					</Grid>
 				</Backdrop>
 			</form>
 		</>

@@ -1,4 +1,15 @@
-import {Backdrop, Box, Button, CircularProgress, FormControlLabel, Radio, RadioGroup, TextField} from "@mui/material";
+import {
+	Backdrop,
+	Box,
+	Button,
+	CircularProgress,
+	FormControlLabel,
+	Grid,
+	Radio,
+	RadioGroup,
+	TextField,
+	Typography,
+} from "@mui/material";
 import {useState} from "react";
 import {Polypeptide} from "../interfaces/Polypeptide";
 import Confetti from "react-confetti";
@@ -187,7 +198,13 @@ const DNASequencerForm = () => {
 					sx={{backgroundColor: "#ebebd3c8", opacity: 0.8}}
 				/>
 				<Backdrop sx={{color: "#fff", zIndex: 1}} open={open}>
-					<CircularProgress color="inherit" />
+					<Grid>
+						<CircularProgress color="inherit" />
+						<Typography variant={"h5"}>Sequencing...</Typography>
+						<Typography variant={"caption"}>
+							If the server has been inactive, the first call may take 30-50s to respond.
+						</Typography>
+					</Grid>
 				</Backdrop>
 			</form>
 		</>
